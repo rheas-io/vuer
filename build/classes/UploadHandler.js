@@ -30,8 +30,8 @@ var UploadHandler = /** @class */ (function (_super) {
      */
     function UploadHandler(upload_url, delete_url) {
         var _this = _super.call(this) || this;
-        _this.upload_url = upload_url || "api/upload";
-        _this.delete_url = delete_url || "api/file";
+        _this.upload_url = upload_url || 'api/upload';
+        _this.delete_url = delete_url || 'api/file';
         return _this;
     }
     /**
@@ -52,12 +52,12 @@ var UploadHandler = /** @class */ (function (_super) {
         // will use "image" as default value and return the urls
         // for "image" input. If the upload name is defined, server will
         // return the urls for the specified input name which can then be
-        // used to render specific components on a page where there are 
+        // used to render specific components on a page where there are
         // input components taking multiple images.
-        formData.append("upload_name", name);
+        formData.append('upload_name', name);
         formData.append(name, files[0], files[0].name);
         var config = {
-            headers: { "Accept": "application/json", "Content-type": "multipart/form-data" }
+            headers: { Accept: 'application/json', 'Content-type': 'multipart/form-data' },
         };
         this.initSubmit();
         this.api_post(this.upload_url, formData, config)
@@ -65,7 +65,7 @@ var UploadHandler = /** @class */ (function (_super) {
             // The image_url can be rendered on frontend based on the
             // "name" key.
             .then(function (response) {
-            _this.onPostSuccess(response);
+            _this.onPostSuccess(response, onSuccess);
             _this.onCompleted();
         })
             .catch(function (error) {
@@ -81,7 +81,7 @@ var UploadHandler = /** @class */ (function (_super) {
      * @param onSuccess
      */
     UploadHandler.prototype.delete = function (file_url, onSuccess, onError) {
-        var data = { url: file_url, _method: "DELETE" };
+        var data = { url: file_url, _method: 'DELETE' };
         this.formPost(this.delete_url, data, onSuccess, onError);
     };
     return UploadHandler;

@@ -1,5 +1,5 @@
-import DataPoster from "./DataPoster";
-import RequestCallback from "../ts/RequestCallback";
+import DataPoster from './DataPoster';
+import RequestCallback from '../ts/RequestCallback';
 export default class UploadHandler extends DataPoster {
     /**
      * Api upload url.
