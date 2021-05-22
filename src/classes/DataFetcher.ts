@@ -37,10 +37,10 @@ export default class DataFetcher extends DataHandler {
      */
     public fetchData(
         url: string,
-        params?: object,
-        header?: object,
         onSuccess?: RequestCallback,
         onError?: RequestCallback,
+        params?: object,
+        header?: object,
     ) {
         this.initFetch();
 
