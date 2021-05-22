@@ -32,11 +32,19 @@ export default class DataFetcher extends DataHandler {
      * @param url
      * @param onSuccess
      * @param onError
+     * @param params
+     * @param headers
      */
-    public fetchData(url: string, onSuccess?: RequestCallback, onError?: RequestCallback) {
+    public fetchData(
+        url: string,
+        params?: object,
+        header?: object,
+        onSuccess?: RequestCallback,
+        onError?: RequestCallback,
+    ) {
         this.initFetch();
 
-        this.api_get(url || this.data_fetch_url)
+        this.api_get(url || this.data_fetch_url, params, header)
             .then((response) => {
                 this.onFetchSuccess(response, onSuccess);
                 this.onCompleted();
@@ -61,12 +69,14 @@ export default class DataFetcher extends DataHandler {
      * @param url The url from which data has to be fetched.
      * @param header
      */
-    private api_get(url?: string, header?: object): AxiosPromise {
+    private api_get(url?: string, params?: object, header?: object): AxiosPromise {
+        params = params || {};
         header = header || {};
 
         return axios({
             method: 'get',
-            url: url,
+            url,
+            params,
             headers: { ...{ 'Cache-Control': 'no-cache' }, ...header },
         });
     }
@@ -91,7 +101,7 @@ export default class DataFetcher extends DataHandler {
     protected onFetchSuccess(response: any, onSuccess?: RequestCallback) {
         try {
             if (typeof onSuccess === 'function') {
-                onSuccess(response.data);
+                onSuccess(response.data, response);
             }
         } catch (e) {}
     }

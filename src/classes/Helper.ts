@@ -1,18 +1,4 @@
-import moment from "moment-timezone";
-
 export default class Helper {
-
-    /**
-     * Formats a time string to specific format.
-     * 
-     * @param time Time string to be parsed
-     * @param format Outpu format
-     */
-    public formatTime(time: string, format?: string) {
-        if (!time) return;
-
-        return moment(time).format(format || "MM/DD/YYYY hh:mm A");
-    }
 
     /**
      * Formats a number to comma seperated string.

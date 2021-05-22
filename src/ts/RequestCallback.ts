@@ -1,3 +1,3 @@
 export default interface RequestCallback {
-    (data?: object): void;
+    (data?: object, response?: object): void;
 }

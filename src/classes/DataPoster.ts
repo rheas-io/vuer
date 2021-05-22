@@ -1,9 +1,8 @@
-import DataHandler from "./DataHandler";
-import axios, { AxiosPromise } from "axios";
-import RequestCallback from "../ts/RequestCallback";
+import DataHandler from './DataHandler';
+import axios, { AxiosPromise } from 'axios';
+import RequestCallback from '../ts/RequestCallback';
 
 export default class DataPoster extends DataHandler {
-
     public submitted: boolean = false;
 
     /**
@@ -11,27 +10,32 @@ export default class DataPoster extends DataHandler {
      * and errors fields, which enables dynamic DOM manipulations.
      * Use this if automatic DOM rendering is required. For eg, in
      * cases where <div v-if="submitted">Loading...</div>
-     * 
+     *
      * @param url Post url
      * @param form_data Post data
      * @param onSuccess Success callback
      * @param onError Error callback
-     * @param onStarted Started callback
-     * @param onEnded Ended callback
      */
-    public formPost(url: string, form_data: object, onSuccess?: RequestCallback, onError?: RequestCallback) {
-
+    public formPost(
+        url: string,
+        form_data: object,
+        onSuccess?: RequestCallback,
+        onError?: RequestCallback,
+        headers?: object,
+    ) {
         this.initSubmit();
 
         let data = JSON.stringify(form_data);
-        let config = { headers: { "Accept": "application/json", "Content-type": "application/json" } };
+        let config = {
+            headers: { Accept: 'application/json', 'Content-type': 'application/json', ...headers },
+        };
 
         this.api_post(url, data, config)
-            .then(response => {
+            .then((response) => {
                 this.onPostSuccess(response, onSuccess);
                 this.onCompleted();
             })
-            .catch(error => {
+            .catch((error) => {
                 this.onPostError(error, onError);
                 this.onCompleted();
             });
@@ -40,7 +44,7 @@ export default class DataPoster extends DataHandler {
     /**
      * Makes an Axios post request. The function can be used alone
      * to not touch the errors and submitted variables.
-     * 
+     *
      * @param url Axios POST url
      * @param data Post data
      * @param headers Axios request configurations like headers.
@@ -61,26 +65,26 @@ export default class DataPoster extends DataHandler {
     }
 
     /**
-     * Calls the onSuccess callback. Sends the data send by the server to 
+     * Calls the onSuccess callback. Sends the data send by the server to
      * the success callback.
-     * 
-     * @param response 
-     * @param onSuccess 
+     *
+     * @param response
+     * @param onSuccess
      */
     protected onPostSuccess(response: any, onSuccess?: RequestCallback) {
         try {
             if (typeof onSuccess === 'function') {
-                onSuccess(response.data);
+                onSuccess(response.data, response);
             }
-        } catch (e) { }
+        } catch (e) {}
     }
 
     /**
-     * Calls the onError callback. Sends the complete "error" response 
+     * Calls the onError callback. Sends the complete "error" response
      * object to the onError callback (not just error.data)
-     * 
-     * @param error 
-     * @param onError 
+     *
+     * @param error
+     * @param onError
      */
     protected onPostError(error: any, onError?: RequestCallback) {
         try {
@@ -89,7 +93,7 @@ export default class DataPoster extends DataHandler {
             if (typeof onError === 'function') {
                 onError(error);
             }
-        } catch (e) { }
+        } catch (e) {}
     }
 
     /**
