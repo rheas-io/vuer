@@ -1,6 +1,6 @@
 {
   "name": "@rheas/vuer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Boilerplate and helpers for frontend development using VueJs",
   "main": "index.js",
   "publishConfig": {
